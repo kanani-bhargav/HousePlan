@@ -2,15 +2,15 @@ const CronJob = require("cron").CronJob;
 const { emailService, userService } = require("../services");
 
 /** It's running on every 3 seconds. */
-new CronJob(
-  "*/3 * * * * *",
-  function () {
-    console.log("It's running on every 3 seconds.");
-  },
-  null,
-  false,
-  "Asia/Kolkata"
-).start();
+// new CronJob(
+//   "*/3 * * * * *",
+//   function () {
+//     console.log("It's running on every 3 seconds.");
+//   },
+//   null,
+//   false,
+//   "Asia/Kolkata"
+// ).start();
 
 /** It's running on when clock time is 7:45 of 24 hours */
 new CronJob(
