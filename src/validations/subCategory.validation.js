@@ -1,14 +1,17 @@
 const Joi = require("joi");
 
-/** create category */
+/** create SubCategory */
 const createSubCategory = {
   body: Joi.object().keys({
     subCategory_name: Joi.string().required().trim(),
+    subCategory_heading: Joi.string().required().trim(),
+    subCategory_description: Joi.string().required().trim(),
+    subCategory_image: Joi.string().allow(),
     category: Joi.string().required().trim(),
   }),
 };
 
-/** GEt category list */
+/** GEt SubCategory list */
 const getSubCategoryList = {
   query: Joi.object().keys({
     search: Joi.string().trim().allow(""),
@@ -18,20 +21,23 @@ const getSubCategoryList = {
   }),
 };
 
-/** Get category details by id */
+/** Get SubCategory details by id */
 const getDetails = {
   params: Joi.object().keys({
-    categoryId: Joi.string().required().trim(),
+    subCategoryId: Joi.string().required().trim(),
   }),
 };
 
-/** category details update by id */
-const updateSubCategoryDetails = {
+/** SubCategory details update by id */
+const updateSubCategory = {
   params: Joi.object().keys({
-    categoryId: Joi.string().required().trim(),
+    subCategoryId: Joi.string().required().trim(),
   }),
   body: Joi.object().keys({
     subCategory_name: Joi.string().required().trim(),
+    subCategory_heading: Joi.string().required().trim(),
+    subCategory_description: Joi.string().required().trim(),
+    subCategory_image: Joi.string().allow(),
     category: Joi.string().required().trim(),
   }),
 };
@@ -41,5 +47,5 @@ module.exports = {
   createSubCategory,
   getDetails,
   getSubCategoryList,
-  updateSubCategoryDetails,
+  updateSubCategory,
 };

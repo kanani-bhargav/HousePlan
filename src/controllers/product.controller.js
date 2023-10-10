@@ -20,11 +20,7 @@ const createProduct = async (req, res) => {
       data: createdProduct,
     });
   } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -44,11 +40,7 @@ const getDetails = async (req, res) => {
       data: productExists,
     });
   } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -69,11 +61,7 @@ const getProductList = async (req, res) => {
       data: getList,
     });
   } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -112,36 +100,10 @@ const updateProduct = async (req, res) => {
       data: updatedProduct,
     });
   } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
-/** Manage product status */
-const manageProductStatus = async (req, res) => {
-  try {
-    const manageStatus = await productService.manageProductStatus(
-      req.params.productId
-    );
-    let resMessage = manageStatus.is_active
-      ? "Product can enable to sale."
-      : "Product can not enable to sale";
-    res.status(200).json({
-      success: true,
-      message: resMessage,
-      data: manageStatus,
-    });
-  } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
-  }
-};
 
 /** Delete product */
 const deleteProduct = async (req, res) => {
@@ -168,11 +130,7 @@ const deleteProduct = async (req, res) => {
       message: "Product delete successfully!",
     });
   } catch (error) {
-    res.status(error?.statusCode || 400).json({
-      success: false,
-      message:
-        error?.message || "Something went wrong, please try again or later!",
-    });
+    res.status(400).json({ success: false, message: error.message });
   }
 };
 
@@ -181,6 +139,5 @@ module.exports = {
   getDetails,
   getProductList,
   updateProduct,
-  manageProductStatus,
   deleteProduct,
 };

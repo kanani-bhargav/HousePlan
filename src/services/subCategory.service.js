@@ -34,7 +34,7 @@ const getSubCategoryById = async (subCategoryId) => {
  * @param {object} updateBody
  * @returns {Promise<SubCategory>}
  */
-const updateSubCategoryDetails = async (subCategoryId, updateBody) => {
+const updateSubCategory = async (subCategoryId, updateBody) => {
   return SubCategory.findByIdAndUpdate(subCategoryId, { $set: updateBody });
 };
 
@@ -55,7 +55,7 @@ module.exports = {
   createSubCategory,
   getSubCategoryList,
   getSubCategoryById,
-  updateSubCategoryDetails,
+  updateSubCategory,
   deleteSubCategory,
   getSubCategoryByName,
 };

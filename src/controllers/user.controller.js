@@ -39,7 +39,6 @@ const getUserList = async (req, res) => {
     }
 
     const getList = await userService.getUserList(filter, options);
-
     res.status(200).json({
       success: true,
       message: "Get user list successfully!",
@@ -51,7 +50,7 @@ const getUserList = async (req, res) => {
 };
 
 /** Get user details by id */
-const getUserDetails = async (req, res) => {
+const getUserById = async (req, res) => {
   try {
     const getDetails = await userService.getUserById(req.params.userId);
     if (!getDetails) {
@@ -69,7 +68,7 @@ const getUserDetails = async (req, res) => {
 };
 
 /** user details update by id */
-const updateUserDetails = async (req, res) => {
+const updateUser = async (req, res) => {
   try {
     const userId = req.params.userId;
     const userExists = await userService.getUserById(userId);
@@ -77,11 +76,12 @@ const updateUserDetails = async (req, res) => {
       throw new Error("User not found!");
     }
 
-    await userService.updateUserDetails(userId, req.body);
-
-    res
-      .status(200)
-      .json({ success: true, message: "User details update successfully!" });
+    const updatedUser = await userService.updateUser(userId, req.body);
+    res.status(200).json({
+      success: true,
+      message: "User details update successfully!",
+      data: updatedUser,
+    });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -130,8 +130,8 @@ const sendMail = async (req, res) => {
 module.exports = {
   createUser,
   getUserList,
-  getUserDetails,
-  updateUserDetails,
+  getUserById,
+  updateUser,
   deleteUser,
   sendMail,
 };

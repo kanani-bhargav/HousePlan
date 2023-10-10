@@ -23,14 +23,14 @@ router.get(
 router.get(
   "/get-details/:userId",
   validate(userValidation.getDetails),
-  userController.getUserDetails
+  userController.getUserById
 );
 
 /** user details update by id */
 router.put(
   "/update/:userId",
   validate(userValidation.updateUserDetails),
-  userController.updateUserDetails
+  userController.updateUser
 );
 
 /** Delete user */

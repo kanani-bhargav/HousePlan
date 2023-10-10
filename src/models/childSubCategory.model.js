@@ -1,27 +1,26 @@
 const mongoose = require("mongoose");
-const config=require('../config/config')
 
 const categorySchema = new mongoose.Schema(
   {
-    subCategory_name: {
+    childSubCategory_name: {
       type: String,
       trim: true,
     },
-    subCategory_heading: {
+    childSubCategory_heading: {
       type: String,
       trim: true,
     },
-    subCategory_description: {
+    childSubCategory_description: {
       type: String,
       trim: true,
     },
-    subCategory_image: {
+    childSubCategory_image: {
       type: String,
       trim: true,
     },
-    category: {
+    subCategory: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "category",
+      ref: "subCategory",
     },
     is_active: {
       type: Boolean,
@@ -33,13 +32,13 @@ const categorySchema = new mongoose.Schema(
     versionKey: false,
     toJSON: {
       transform: function (doc, data) {
-        if (data?.subCategory_image) {
-          data.subCategory_image = `${config.base_url}/subCategory_image/${data.subCategory_image}`;
+        if (data?.childSubCategory_image) {
+          data.childSubCategory_image = `${config.base_url}/childSubCategory_image/${data.childSubCategory_image}`;
         }
       },
     },
   }
 );
 
-const subCategory = mongoose.model("subCategory", categorySchema);
-module.exports = subCategory;
+const childSubCategory = mongoose.model("childSubCategory", categorySchema);
+module.exports = childSubCategory;

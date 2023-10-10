@@ -23,14 +23,14 @@ router.get(
 router.get(
   "/get-details/:categoryId",
   validate(categoryValidation.getDetails),
-  categoryController.getCategoryDetails
+  categoryController.getCategoryById
 );
 
 /** category details update by id */
 router.put(
   "/update/:categoryId",
-  validate(categoryValidation.updateCategoryDetails),
-  categoryController.updateCategoryDetails
+  validate(categoryValidation.updateCategory),
+  categoryController.updateCategory
 );
 
 /** Delete category */

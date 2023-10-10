@@ -4,6 +4,8 @@ const Joi = require("joi");
 const createCategory = {
   body: Joi.object().keys({
     category_name: Joi.string().required().trim(),
+    category_heading: Joi.string().required().trim(),
+    category_description: Joi.string().required().trim(),
   }),
 };
 
@@ -25,12 +27,14 @@ const getDetails = {
 };
 
 /** category details update by id */
-const updateCategoryDetails = {
+const updateCategory = {
   params: Joi.object().keys({
     categoryId: Joi.string().required().trim(),
   }),
   body: Joi.object().keys({
     category_name: Joi.string().required().trim(),
+    category_heading: Joi.string().required().trim(),
+    category_description: Joi.string().required().trim(),
   }),
 };
 
@@ -39,5 +43,5 @@ module.exports = {
   createCategory,
   getDetails,
   getCategoryList,
-  updateCategoryDetails,
+  updateCategory,
 };

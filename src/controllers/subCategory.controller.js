@@ -1,15 +1,30 @@
 const { subCategoryService } = require("../services");
-
+const fs = require("fs");
 /** create subCategory */
 const createSubCategory = async (req, res) => {
   try {
     const reqBody = req.body;
-
-    const subCategoryExists = await subCategoryService.getSubCategoryByName(reqBody.subCategory_name);
-    if (subCategoryExists) {
+    if (req.file) {
+      reqBody.subCategory_image = req.file.filename;
+    } else {
+      const filePath = `I:/houseplan/src/public/subCategory_image/${reqBody.subCategory_image}`; //note path should be absolute
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
       throw new Error("SubCategory already created by this name!");
     }
 
+    const subCategoryExists = await subCategoryService.getSubCategoryByName(
+      reqBody.subCategory_name
+    );
+    if (subCategoryExists) {
+      const filePath = `I:/houseplan/src/public/subCategory_image/${reqBody.subCategory_image}`; //note path should be absolute
+      console.log(filePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      throw new Error("SubCategory already created by this name!");
+    }
     const subCategory = await subCategoryService.createSubCategory(reqBody);
     if (!subCategory) {
       throw new Error("Something went wrong, please try again or later!");
@@ -38,7 +53,10 @@ const getSubCategoryList = async (req, res) => {
       ];
     }
 
-    const getList = await subCategoryService.getSubCategoryList(filter, options);
+    const getList = await subCategoryService.getSubCategoryList(
+      filter,
+      options
+    );
 
     res.status(200).json({
       success: true,
@@ -51,9 +69,11 @@ const getSubCategoryList = async (req, res) => {
 };
 
 /** Get subCategory details by id */
-const getSubCategoryDetails = async (req, res) => {
+const getSubCategoryById = async (req, res) => {
   try {
-    const getDetails = await subCategoryService.getSubCategoryById(req.params.subCategoryId);
+    const getDetails = await subCategoryService.getSubCategoryById(
+      req.params.subCategoryId
+    );
     if (!getDetails) {
       throw new Error("SubCategory not found!");
     }
@@ -69,25 +89,40 @@ const getSubCategoryDetails = async (req, res) => {
 };
 
 /** subCategory details update by id */
-const updateSubCategoryDetails = async (req, res) => {
+const updateSubCategory = async (req, res) => {
   try {
-
     const reqBody = req.body;
     const subCategoryId = req.params.subCategoryId;
-    const subCategoryExists = await subCategoryService.getSubCategoryById(subCategoryId);
+    const subCategoryExists = await subCategoryService.getSubCategoryById(
+      subCategoryId
+    );
     if (!subCategoryExists) {
       throw new Error("SubCategory not found!");
     }
-    const subCategoryName = await subCategoryService.getSubCategoryByName(reqBody.subCategory_name);
+    const subCategoryName = await subCategoryService.getSubCategoryByName(
+      reqBody.subCategory_name
+    );
     if (subCategoryName) {
+      const filePath = `I:/houseplan/src/public/subCategory_image/${reqBody.subCategory_image}`;
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
       throw new Error("SubCategory already created by this name!");
     }
 
-    await subCategoryService.updateSubCategoryDetails(subCategoryId, req.body);
+    if (req.file) {
+      reqBody.subCategory_image = req.file.filename;
+    }
+    const updatedSubCategory = await subCategoryService.updateSubCategory(
+      subCategoryId,
+      req.body
+    );
 
-    res
-      .status(200)
-      .json({ success: true, message: "SubCategory details update successfully!" });
+    res.status(200).json({
+      success: true,
+      message: "SubCategory details update successfully!",
+      data: updatedSubCategory,
+    });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
@@ -97,12 +132,25 @@ const updateSubCategoryDetails = async (req, res) => {
 const deleteSubCategory = async (req, res) => {
   try {
     const subCategoryId = req.params.subCategoryId;
-    const subCategoryExists = await subCategoryService.getSubCategoryById(subCategoryId);
+    const subCategoryExists = await subCategoryService.getSubCategoryById(
+      subCategoryId
+    );
     if (!subCategoryExists) {
       throw new Error("SubCategory not found!");
     }
 
-    await subCategoryService.deleteSubCategory(subCategoryId);
+    const deletedSubCategory = await subCategoryService.deleteSubCategory(
+      subCategoryId
+    );
+    if (deletedSubCategory) {
+      const filePath = `I:/houseplan/src/public/subCategory_image/${subCategoryExists.subCategory_image}`; //note path should be absolute
+      console.log(filePath);
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+    } else {
+      throw new Error("Something went wrong, please try again or later!");
+    }
 
     res.status(200).json({
       success: true,
@@ -113,11 +161,10 @@ const deleteSubCategory = async (req, res) => {
   }
 };
 
-
 module.exports = {
   createSubCategory,
   getSubCategoryList,
-  getSubCategoryDetails,
-  updateSubCategoryDetails,
+  getSubCategoryById,
+  updateSubCategory,
   deleteSubCategory,
 };

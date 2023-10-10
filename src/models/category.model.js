@@ -6,6 +6,14 @@ const categorySchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    category_heading: {
+      type: String,
+      trim: true,
+    },
+    category_description: {
+      type: String,
+      trim: true,
+    },
     is_active: {
       type: Boolean,
       default: true,
@@ -18,5 +26,5 @@ const categorySchema = new mongoose.Schema(
 );
 
 
-const Category = mongoose.model("categories", categorySchema);
+const Category = mongoose.model("category", categorySchema);
 module.exports = Category;

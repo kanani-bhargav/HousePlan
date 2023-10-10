@@ -1,41 +1,44 @@
 const express = require("express");
+const { upload } = require("../../middlewares/upload");
 const { subCategoryValidation } = require("../../validations");
 const { subCategoryController } = require("../../controllers");
 const validate = require("../../middlewares/validate");
 
 const router = express.Router();
 
-/** create category */
+/** create subCategory */
 router.post(
   "/create",
+  upload.single("subCategory_image"),
   validate(subCategoryValidation.createSubCategory),
   subCategoryController.createSubCategory
 );
 
-/** Get category list */
+/** Get subCategory list */
 router.get(
   "/list",
   validate(subCategoryValidation.getSubCategoryList),
   subCategoryController.getSubCategoryList
 );
 
-/** Get category details by id */
+/** Get subCategory details by id */
 router.get(
-  "/get-details/:categoryId",
+  "/get-details/:subCategoryId",
   validate(subCategoryValidation.getDetails),
-  subCategoryController.getSubCategoryDetails
+  subCategoryController.getSubCategoryById
 );
 
-/** category details update by id */
+/** subCategory details update by id */
 router.put(
-  "/update/:categoryId",
-  validate(subCategoryValidation.updateSubCategoryDetails),
-  subCategoryController.updateSubCategoryDetails
+  "/update/:subCategoryId",
+  upload.single("subCategory_image"),
+  validate(subCategoryValidation.updateSubCategory),
+  subCategoryController.updateSubCategory
 );
 
-/** Delete category */
+/** Delete subCategory */
 router.delete(
-  "/delete/:categoryId",
+  "/delete/:subCategoryId",
   validate(subCategoryValidation.getDetails),
   subCategoryController.deleteSubCategory
 );

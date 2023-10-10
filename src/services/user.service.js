@@ -43,7 +43,7 @@ const getUserById = async (userId) => {
  * @param {object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserDetails = async (userId, updateBody) => {
+const updateUser = async (userId, updateBody) => {
   return User.findByIdAndUpdate(userId, { $set: updateBody });
 };
 
@@ -60,7 +60,7 @@ module.exports = {
   createUser,
   getUserList,
   getUserById,
-  updateUserDetails,
+  updateUser,
   getUserByEmail,
   deleteUser,
 };

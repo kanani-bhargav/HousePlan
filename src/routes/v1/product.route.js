@@ -1,5 +1,5 @@
 const express = require("express");
-const auth = require("../../middlewares/auth");
+// const auth = require("../../middlewares/auth");
 const { upload } = require("../../middlewares/upload");
 const validate = require("../../middlewares/validate");
 const { productValidation } = require("../../validations");
@@ -10,8 +10,7 @@ const router = express.Router();
 /** Create product */
 router.post(
   "/create",
-  auth(),
-  upload.single("product_image"),
+  // auth(),
   validate(productValidation.createProduct),
   productController.createProduct
 );
@@ -33,24 +32,16 @@ router.get(
 /** Update product details */
 router.put(
   "/update/:productId",
-  auth(),
+  // auth(),
   upload.single("product_image"),
   validate(productValidation.updateProduct),
   productController.updateProduct
 );
 
-/** Manage product status */
-router.put(
-  "/manage-status/:productId",
-  auth(),
-  validate(productValidation.getDetails),
-  productController.manageProductStatus
-);
-
 /** Delete product */
 router.delete(
   "/delete/:productId",
-  auth(),
+  // auth(),
   validate(productValidation.getDetails),
   productController.deleteProduct
 );

@@ -34,7 +34,7 @@ const getCategoryById = async (categoryId) => {
  * @param {object} updateBody
  * @returns {Promise<Category>}
  */
-const updateCategoryDetails = async (categoryId, updateBody) => {
+const updateCategory = async (categoryId, updateBody) => {
   return Category.findByIdAndUpdate(categoryId, { $set: updateBody });
 };
 
@@ -55,7 +55,7 @@ module.exports = {
   createCategory,
   getCategoryList,
   getCategoryById,
-  updateCategoryDetails,
+  updateCategory,
   deleteCategory,
   getCategoryByName,
 };
