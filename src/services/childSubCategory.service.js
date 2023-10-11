@@ -16,7 +16,7 @@ const createChildSubCategory = async (reqBody) => {
  * @returns {Promise<ChildSubCategory>}
  */
 const getChildSubCategoryList = async (filter, options) => {
-  return ChildSubCategory.find().populate("category");
+  return ChildSubCategory.find().populate("subCategory");
 };
 
 /**

@@ -34,14 +34,12 @@ const updateChildSubCategory = {
     childSubCategoryId: Joi.string().required().trim(),
   }),
   body: Joi.object().keys({
-    childSubCategory_name: Joi.string().required().trim(),
     childSubCategory_heading: Joi.string().required().trim(),
     childSubCategory_description: Joi.string().required().trim(),
     childSubCategory_image: Joi.string().allow(),
-    subCategory: Joi.string().required().trim(),
+    is_active:Joi.boolean().required(),
   }),
 };
-
 
 module.exports = {
   createChildSubCategory,

@@ -17,6 +17,12 @@ const storage = multer.diskStorage({
       });
       cb(null, path.join(__dirname, "../public/subCategory_image"));
     }
+    else if (file.fieldname == "childSubCategory_image") {
+      fs.mkdirSync(path.join(__dirname, "../public/childSubCategory_image"), {
+        recursive: true,
+      });
+      cb(null, path.join(__dirname, "../public/childSubCategory_image"));
+    }
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);

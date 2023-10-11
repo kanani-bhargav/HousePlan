@@ -17,7 +17,7 @@ const createCategory = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Category create successfully!",
-      data: category,
+      category,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -37,12 +37,12 @@ const getCategoryList = async (req, res) => {
       ];
     }
 
-    const getList = await categoryService.getCategoryList(filter, options);
+    const category = await categoryService.getCategoryList(filter, options);
 
     res.status(200).json({
       success: true,
       message: "Get category list successfully!",
-      data: getList,
+      category,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -52,7 +52,7 @@ const getCategoryList = async (req, res) => {
 /** Get category details by id */
 const getCategoryById = async (req, res) => {
   try {
-    const getDetails = await categoryService.getCategoryById(
+    const category = await categoryService.getCategoryById(
       req.params.categoryId
     );
     if (!getDetails) {
@@ -62,7 +62,7 @@ const getCategoryById = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "Category details get successfully!",
-      data: getDetails,
+      category,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -78,22 +78,20 @@ const updateCategory = async (req, res) => {
     if (!categoryExists) {
       throw new Error("Category not found!");
     }
-    const categoryName = await categoryService.getCategoryByName(
-      reqBody.category_name
-    );
-    if (categoryName) {
-      throw new Error("Category already created by this name!");
-    }
 
     const updatedCategory = await categoryService.updateCategory(
       categoryId,
       req.body
     );
 
+    const category = await categoryService.getCategoryById(categoryId);
+
+
+
     res.status(200).json({
       success: true,
       message: "Category details update successfully!",
-      data: updatedCategory,
+      category,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });

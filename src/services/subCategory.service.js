@@ -16,7 +16,10 @@ const createSubCategory = async (reqBody) => {
  * @returns {Promise<SubCategory>}
  */
 const getSubCategoryList = async (filter, options) => {
-  return SubCategory.find().populate("category");
+  return SubCategory.find().populate({
+    path: "category",
+    select: ["category_name"],
+  });
 };
 
 /**

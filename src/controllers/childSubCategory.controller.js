@@ -7,11 +7,7 @@ const createChildSubCategory = async (req, res) => {
     if (req.file) {
       reqBody.childSubCategory_image = req.file.filename;
     } else {
-      const filePath = `I:/houseplan/src/public/childSubCategory_image/${reqBody.childSubCategory_image}`; //note path should be absolute
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-      throw new Error("ChildSubCategory already created by this name!");
+      throw new Error("childSubCategory_image please enter image!");
     }
 
     const childSubCategoryExists =
@@ -20,7 +16,6 @@ const createChildSubCategory = async (req, res) => {
       );
     if (childSubCategoryExists) {
       const filePath = `I:/houseplan/src/public/childSubCategory_image/${reqBody.childSubCategory_image}`; //note path should be absolute
-      console.log(filePath);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }
@@ -31,11 +26,10 @@ const createChildSubCategory = async (req, res) => {
     if (!childSubCategory) {
       throw new Error("Something went wrong, please try again or later!");
     }
-
     res.status(200).json({
       success: true,
       message: "ChildSubCategory create successfully!",
-      data: { childSubCategory },
+      childSubCategory,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -55,15 +49,13 @@ const getChildSubCategoryList = async (req, res) => {
       ];
     }
 
-    const getList = await childSubCategoryService.getChildSubCategoryList(
-      filter,
-      options
-    );
+    const childSubCategory =
+      await childSubCategoryService.getChildSubCategoryList(filter, options);
 
     res.status(200).json({
       success: true,
       message: "Get childSubCategory list successfully!",
-      data: getList,
+      childSubCategory,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -73,9 +65,10 @@ const getChildSubCategoryList = async (req, res) => {
 /** Get childSubCategory details by id */
 const getChildSubCategoryById = async (req, res) => {
   try {
-    const getDetails = await childSubCategoryService.getChildSubCategoryById(
-      req.params.childSubCategoryId
-    );
+    const childSubCategory =
+      await childSubCategoryService.getChildSubCategoryById(
+        req.params.childSubCategoryId
+      );
     if (!getDetails) {
       throw new Error("ChildSubCategory not found!");
     }
@@ -83,7 +76,7 @@ const getChildSubCategoryById = async (req, res) => {
     res.status(200).json({
       success: true,
       message: "ChildSubCategory details get successfully!",
-      data: getDetails,
+      childSubCategory,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -100,11 +93,7 @@ const updateChildSubCategory = async (req, res) => {
     if (!childSubCategoryExists) {
       throw new Error("ChildSubCategory not found!");
     }
-    const childSubCategoryName =
-      await childSubCategoryService.getChildSubCategoryByName(
-        reqBody.childSubCategory_name
-      );
-    if (childSubCategoryName) {
+    if (!childSubCategoryExists) {
       const filePath = `I:/houseplan/src/public/childSubCategory_image/${reqBody.childSubCategory_image}`;
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
@@ -115,16 +104,18 @@ const updateChildSubCategory = async (req, res) => {
     if (req.file) {
       reqBody.childSubCategory_image = req.file.filename;
     }
-    const updatedChildSubCategory =
-      await childSubCategoryService.updateChildSubCategory(
-        childSubCategoryId,
-        req.body
-      );
+    await childSubCategoryService.updateChildSubCategory(
+      childSubCategoryId,
+      req.body
+    );
+
+    const childSubCategory =
+      await childSubCategoryService.getChildSubCategoryById(childSubCategoryId);
 
     res.status(200).json({
       success: true,
       message: "ChildSubCategory details update successfully!",
-      data: updatedChildSubCategory,
+      childSubCategory,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
@@ -145,7 +136,6 @@ const deleteChildSubCategory = async (req, res) => {
       await childSubCategoryService.deleteChildSubCategory(childSubCategoryId);
     if (deletedChildSubCategory) {
       const filePath = `I:/houseplan/src/public/childSubCategory_image/${childSubCategoryExists.childSubCategory_image}`; //note path should be absolute
-      console.log(filePath);
       if (fs.existsSync(filePath)) {
         fs.unlinkSync(filePath);
       }

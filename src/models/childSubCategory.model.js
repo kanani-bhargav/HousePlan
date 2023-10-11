@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const config=require('../config/config')
 
 const categorySchema = new mongoose.Schema(
   {
