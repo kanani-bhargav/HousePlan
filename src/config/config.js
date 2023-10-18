@@ -1,7 +1,7 @@
 const Joi = require("joi");
 const dotenv = require("dotenv");
 
-dotenv.config({ path: "./.env"});
+dotenv.config({ path: "./.env" });
 
 const envVarsSchema = Joi.object({
   PORT: Joi.number().default(3000),
@@ -17,6 +17,13 @@ const envVarsSchema = Joi.object({
   EMAIL_FROM: Joi.string().description(
     "the from field in the emails sent by the app"
   ),
+  AWS_ACCESS_KEY: Joi.string().description("AWS access key"),
+  AWS_SECRET_KEY: Joi.string().description("AWS secret key"),
+  AWS_REGION: Joi.string().description("AWS region"),
+  AWS_BUCKET_NAME: Joi.string().description("AWS bucket name"),
+  BASE_URL: Joi.string().required().description('Base url'),
+  IMAGE_URL: Joi.string().required().description('Image url'),
+
 }).unknown();
 
 const { value: envVars, error } = envVarsSchema
@@ -51,4 +58,12 @@ module.exports = {
     },
     from: envVars.EMAIL_FROM,
   },
+  aws: {
+    access_key: envVars.AWS_ACCESS_KEY,
+    secret_key: envVars.AWS_SECRET_KEY,
+    region: envVars.AWS_REGION,
+    bucket_name: envVars.AWS_BUCKET_NAME,
+},
+base_url: envVars.BASE_URL,
+image_url: envVars.IMAGE_URL,
 };

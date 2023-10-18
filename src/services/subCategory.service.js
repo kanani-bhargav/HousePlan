@@ -1,12 +1,33 @@
 const { SubCategory } = require("../models");
+const { s3Delete, s3Upload } = require('./awsS3.service');
+const  fileService  = require('./files.service');
+
+
+
 
 /**
  * Create subCategory
  * @param {object} reqBody
  * @returns {Promise<SubCategory>}
  */
-const createSubCategory = async (reqBody) => {
-  return SubCategory.create(reqBody);
+const createSubCategory = async (reqBody,fileData) => {
+  const subCategory_image = fileService.getFileName(fileData);
+
+    /** validate the uploaded files */
+    fileService.validateImageFile({
+        subCategory_image: subCategory_image,
+    });
+
+    /** Upload image on AWS S3 bucket */
+    await s3Upload(`${FILES_FOLDER.subCategory_img}/${subCategory_image}`, fileData.buffer);
+
+    const newSubCategory = await SubCategory.create({
+        ...reqBody,
+        subCategory_image,
+    });
+
+    return newSubCategory;
+  // return SubCategory.create(reqBody);
 };
 
 /**

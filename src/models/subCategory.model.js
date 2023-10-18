@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const config=require('../config/config')
+const {FILES_FOLDER}=require('../helpers/constant.helper')
 
 const categorySchema = new mongoose.Schema(
   {
@@ -33,9 +34,9 @@ const categorySchema = new mongoose.Schema(
     versionKey: false,
     toJSON: {
       transform: function (doc, data) {
-        if (data?.subCategory_image) {
-          data.subCategory_image = `${config.base_url}/subCategory_image/${data.subCategory_image}`;
-        }
+        data.category_image = data.category_image
+                    ? `${config.image_url}${FILES_FOLDER.categoryImage}/${data.category_image}`
+                    : `${config.base_url}/default/default-image.jpg`;
       },
     },
   }
