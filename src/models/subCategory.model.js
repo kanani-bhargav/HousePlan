@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
 const config=require('../config/config')
 const {FILES_FOLDER}=require('../helpers/constant.helper')
+const { toJSON, paginate } = require('./plugins');
 
-const categorySchema = new mongoose.Schema(
+
+
+const subCategorySchema = new mongoose.Schema(
   {
     subCategory_name: {
       type: String,
@@ -42,5 +45,9 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-const subCategory = mongoose.model("subCategory", categorySchema);
+// add plugin that converts mongoose to json
+subCategorySchema.plugin(toJSON);
+// subCategorySchema.plugin(paginate);
+
+const subCategory = mongoose.model("subCategory", subCategorySchema);
 module.exports = subCategory;
