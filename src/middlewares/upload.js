@@ -40,11 +40,9 @@ const path = require("path");
 
 // module.exports = { upload };
 
-const multer = require('multer');
-
 const upload = multer({
     storage: multer.memoryStorage(),
     limits: { files: 50, fileSize: 10485760 },  /**its limit for file size */
 });
 
-module.exports = upload;
+module.exports = {upload};

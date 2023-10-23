@@ -41,4 +41,20 @@ const s3Delete = async (fileKeyPath) => {
     });
 };
 
-module.exports = { s3Upload, s3Delete };
+const s3PutObject = async (fileKeyPath, fileData) => {
+    const params = {
+        Bucket: config.aws.bucket_name,
+        Key: fileKeyPath,
+        Body: fileData, // The data you want to upload (e.g., a buffer or stream).
+    };
+
+        s3.putObject(params, (err, data) => {
+            if (err) {
+                return({ status: false, message: err.message });
+            } else {
+                return({ status: true, message: 'Upload successful!', data });
+            }
+        });
+}
+
+module.exports = { s3Upload, s3Delete,s3PutObject };

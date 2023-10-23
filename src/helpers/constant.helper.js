@@ -4,3 +4,6 @@ const FILES_FOLDER = {
   subCategory_img: "subCategoryImages",
   childSubCategory_img: "childSubCategoryImages",
 };
+module.exports={
+  FILES_FOLDER
+}

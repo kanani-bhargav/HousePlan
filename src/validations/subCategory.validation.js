@@ -34,10 +34,10 @@ const updateSubCategory = {
     subCategoryId: Joi.string().required().trim(),
   }),
   body: Joi.object().keys({
-    subCategory_heading: Joi.string().required().trim(),
-    subCategory_description: Joi.string().required().trim(),
+    subCategory_heading: Joi.string().trim(),
+    subCategory_description: Joi.string().trim(),
     subCategory_image: Joi.string().allow(),
-    is_active: Joi.string().required(),
+    is_active: Joi.string().allow(),
   }),
 };
 

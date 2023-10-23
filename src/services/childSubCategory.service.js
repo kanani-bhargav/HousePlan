@@ -1,12 +1,35 @@
+const { image_url } = require("../config/config");
+const { FILES_FOLDER } = require("../helpers/constant.helper");
 const { ChildSubCategory } = require("../models");
+const { s3Delete, s3Upload } = require("./awsS3.service");
+const fileService = require("./files.service");
 
 /**
  * Create childSubCategory
  * @param {object} reqBody
  * @returns {Promise<ChildSubCategory>}
  */
-const createChildSubCategory = async (reqBody) => {
-  return ChildSubCategory.create(reqBody);
+const createChildSubCategory = async (reqBody, fileData) => {
+  const childSubCategory_image = fileService.getFileName(fileData);
+
+  /** validate the uploaded files */
+  fileService.validateImageFile({
+    childSubCategory_image: childSubCategory_image,
+  });
+
+  /** Upload image on AWS S3 bucket */
+  await s3Upload(
+    `${FILES_FOLDER.childSubCategory_img}/${childSubCategory_image}`,
+    fileData.buffer
+  );
+
+  const newChildSubCategory = await ChildSubCategory.create({
+    ...reqBody,
+    childSubCategory_image,
+  });
+
+  return newChildSubCategory;
+  // return ChildSubCategory.create(reqBody);
 };
 
 /**
@@ -16,7 +39,9 @@ const createChildSubCategory = async (reqBody) => {
  * @returns {Promise<ChildSubCategory>}
  */
 const getChildSubCategoryList = async (filter, options) => {
-  return ChildSubCategory.find().populate("subCategory");
+  return ChildSubCategory.find().populate({
+    path: "subCategory",
+  });
 };
 
 /**
@@ -34,8 +59,10 @@ const getChildSubCategoryById = async (childSubCategoryId) => {
  * @param {object} updateBody
  * @returns {Promise<ChildSubCategory>}
  */
-const updateChildSubCategory= async (childSubCategoryId, updateBody) => {
-  return ChildSubCategory.findByIdAndUpdate(childSubCategoryId, { $set: updateBody });
+const updateChildSubCategory = async (childSubCategoryId, updateBody) => {
+  return ChildSubCategory.findByIdAndUpdate(childSubCategoryId, {
+    $set: updateBody,
+  });
 };
 
 /**

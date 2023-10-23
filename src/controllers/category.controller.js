@@ -85,9 +85,6 @@ const updateCategory = async (req, res) => {
     );
 
     const category = await categoryService.getCategoryById(categoryId);
-
-
-
     res.status(200).json({
       success: true,
       message: "Category details update successfully!",

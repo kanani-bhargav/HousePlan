@@ -32,9 +32,9 @@ const updateCategory = {
     categoryId: Joi.string().required().trim(),
   }),
   body: Joi.object().keys({
-    category_heading: Joi.string().required().trim(),
-    category_description: Joi.string().required().trim(),
-    is_active: Joi.boolean().required(),
+    category_heading: Joi.string().trim(),
+    category_description: Joi.string().trim(),
+    is_active: Joi.boolean().allow(),
   }),
 };
 

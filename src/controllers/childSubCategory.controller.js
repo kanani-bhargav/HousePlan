@@ -1,5 +1,8 @@
 const { childSubCategoryService } = require("../services");
 const fs = require("fs");
+const { s3Delete, s3PutObject } = require("../services/awsS3.service");
+const { FILES_FOLDER } = require("../helpers/constant.helper");
+
 /** create childSubCategory */
 const createChildSubCategory = async (req, res) => {
   try {
@@ -9,20 +12,16 @@ const createChildSubCategory = async (req, res) => {
     } else {
       throw new Error("childSubCategory_image please enter image!");
     }
-
-    const childSubCategoryExists =
-      await childSubCategoryService.getChildSubCategoryByName(
-        reqBody.childSubCategory_name
-      );
+    const childSubCategoryExists = await childSubCategoryService.getChildSubCategoryByName(
+      reqBody.childSubCategory_name
+    );
     if (childSubCategoryExists) {
-      const filePath = `I:/houseplan/src/public/childSubCategory_image/${reqBody.childSubCategory_image}`; //note path should be absolute
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
       throw new Error("ChildSubCategory already created by this name!");
     }
-    const childSubCategory =
-      await childSubCategoryService.createChildSubCategory(reqBody);
+    const childSubCategory = await childSubCategoryService.createChildSubCategory(
+      reqBody,
+      req.file
+    );
     if (!childSubCategory) {
       throw new Error("Something went wrong, please try again or later!");
     }
@@ -49,8 +48,10 @@ const getChildSubCategoryList = async (req, res) => {
       ];
     }
 
-    const childSubCategory =
-      await childSubCategoryService.getChildSubCategoryList(filter, options);
+    const childSubCategory = await childSubCategoryService.getChildSubCategoryList(
+      filter,
+      options
+    );
 
     res.status(200).json({
       success: true,
@@ -65,10 +66,9 @@ const getChildSubCategoryList = async (req, res) => {
 /** Get childSubCategory details by id */
 const getChildSubCategoryById = async (req, res) => {
   try {
-    const childSubCategory =
-      await childSubCategoryService.getChildSubCategoryById(
-        req.params.childSubCategoryId
-      );
+    const childSubCategory = await childSubCategoryService.getChildSubCategoryById(
+      req.params.childSubCategoryId
+    );
     if (!getDetails) {
       throw new Error("ChildSubCategory not found!");
     }
@@ -88,29 +88,24 @@ const updateChildSubCategory = async (req, res) => {
   try {
     const reqBody = req.body;
     const childSubCategoryId = req.params.childSubCategoryId;
-    const childSubCategoryExists =
-      await childSubCategoryService.getChildSubCategoryById(childSubCategoryId);
+    const childSubCategoryExists = await childSubCategoryService.getChildSubCategoryById(
+      childSubCategoryId
+    );
     if (!childSubCategoryExists) {
       throw new Error("ChildSubCategory not found!");
     }
-    if (!childSubCategoryExists) {
-      const filePath = `I:/houseplan/src/public/childSubCategory_image/${reqBody.childSubCategory_image}`;
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-      throw new Error("ChildSubCategory already created by this name!");
-    }
-
     if (req.file) {
       reqBody.childSubCategory_image = req.file.filename;
     }
-    await childSubCategoryService.updateChildSubCategory(
-      childSubCategoryId,
-      req.body
-    );
+    await childSubCategoryService.updateChildSubCategory(childSubCategoryId, req.body);
 
-    const childSubCategory =
-      await childSubCategoryService.getChildSubCategoryById(childSubCategoryId);
+    await s3PutObject(
+        `${FILES_FOLDER.childSubCategory_img}/${childSubCategoryExists.childSubCategory_image}`,
+        req.file.buffer
+    );
+    const childSubCategory = await childSubCategoryService.getChildSubCategoryById(
+      childSubCategoryId
+    );
 
     res.status(200).json({
       success: true,
@@ -126,22 +121,19 @@ const updateChildSubCategory = async (req, res) => {
 const deleteChildSubCategory = async (req, res) => {
   try {
     const childSubCategoryId = req.params.childSubCategoryId;
-    const childSubCategoryExists =
-      await childSubCategoryService.getChildSubCategoryById(childSubCategoryId);
+    const childSubCategoryExists = await childSubCategoryService.getChildSubCategoryById(
+      childSubCategoryId
+    );
     if (!childSubCategoryExists) {
       throw new Error("ChildSubCategory not found!");
     }
 
-    const deletedChildSubCategory =
-      await childSubCategoryService.deleteChildSubCategory(childSubCategoryId);
-    if (deletedChildSubCategory) {
-      const filePath = `I:/houseplan/src/public/childSubCategory_image/${childSubCategoryExists.childSubCategory_image}`; //note path should be absolute
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    } else {
-      throw new Error("Something went wrong, please try again or later!");
-    }
+    const deletedChildSubCategory = await childSubCategoryService.deleteChildSubCategory(
+      childSubCategoryId
+    );
+    await s3Delete(
+      `${FILES_FOLDER.childSubCategory_img}/${childSubCategoryExists.childSubCategory_image}`
+    );
 
     res.status(200).json({
       success: true,

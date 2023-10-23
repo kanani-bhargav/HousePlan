@@ -3,8 +3,6 @@ const config=require('../config/config')
 const {FILES_FOLDER}=require('../helpers/constant.helper')
 const { toJSON, paginate } = require('./plugins');
 
-
-
 const subCategorySchema = new mongoose.Schema(
   {
     subCategory_name: {
@@ -37,8 +35,8 @@ const subCategorySchema = new mongoose.Schema(
     versionKey: false,
     toJSON: {
       transform: function (doc, data) {
-        data.category_image = data.category_image
-                    ? `${config.image_url}${FILES_FOLDER.categoryImage}/${data.category_image}`
+        data.subCategory_image = data.subCategory_image
+                    ? `${config.image_url}/${FILES_FOLDER.subCategory_img}/${data.subCategory_image}`
                     : `${config.base_url}/default/default-image.jpg`;
       },
     },

@@ -1,5 +1,8 @@
 const mongoose = require("mongoose");
 const config=require('../config/config')
+const {FILES_FOLDER}=require('../helpers/constant.helper')
+const { toJSON, paginate } = require('./plugins');
+
 
 const childSubCategorySchema = new mongoose.Schema(
   {
@@ -33,13 +36,16 @@ const childSubCategorySchema = new mongoose.Schema(
     versionKey: false,
     toJSON: {
       transform: function (doc, data) {
-        if (data?.childSubCategory_image) {
-          data.childSubCategory_image = `${config.base_url}/childSubCategory_image/${data.childSubCategory_image}`;
-        }
+        data.childSubCategory_image = data.childSubCategory_image
+                    ? `${config.image_url}/${FILES_FOLDER.childSubCategory_img}/${data.childSubCategory_image}`
+                    : `${config.base_url}/default/default-image.jpg`;
       },
     },
   }
 );
+
+// add plugin that converts mongoose to json
+childSubCategorySchema.plugin(toJSON);
 
 const childSubCategory = mongoose.model("childSubCategory", childSubCategorySchema);
 module.exports = childSubCategory;
