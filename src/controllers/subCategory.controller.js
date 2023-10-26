@@ -53,11 +53,7 @@ const getSubCategoryList = async (req, res) => {
       options
     );
 
-    res.status(200).json({
-      success: true,
-      message: "Get subCategory list successfully!",
-      subCategory,
-    });
+    res.status(200).json([...subCategory]);
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
