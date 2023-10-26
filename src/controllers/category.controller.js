@@ -14,11 +14,7 @@ const createCategory = async (req, res) => {
     if (!category) {
       throw new Error("Something went wrong, please try again or later!");
     }
-    res.status(200).json({
-      success: true,
-      message: "Category create successfully!",
-      category,
-    });
+    res.status(200).json([...category]);
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
