@@ -103,14 +103,14 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
   9.  **_Access from Code:_**
       - When accessing the S3 bucket from your code (e.g., to upload or retrieve images), use the Access Key ID and Secret Access Key associated with your IAM user. You can use AWS SDKs or APIs to interact with S3 from your application.
 
-- **SMTP Email setup:**
++ **SMTP Email setup:**
   When setting up SMTP (Simple Mail Transfer Protocol) for an email service, you need specific details and prerequisites to configure your email sending system correctly.
 
 1. **_Email Service Provider:_** You should have an email service provider (ESP) or access to an SMTP server to send emails. Common ESPs include Gmail, Outlook (Microsoft 365), Amazon SES, or custom SMTP servers.
 
 2. **_Email Account:_** You'll need an active email account associated with your ESP or SMTP server.
 
-**_SMTP Configuration Details:_**
++ **_SMTP Configuration Details:_**
 
 1. **_SMTP Host (Server):_** This is the hostname or IP address of the SMTP server provided by your ESP or SMTP service. It determines where your outgoing emails are routed.
 
@@ -159,7 +159,7 @@ If your project includes an API, provide detailed documentation. Describe endpoi
 
 - **Create a `.env` file:** Users may need to create a `.env` file in the project root and specify configuration variables.
 
-# replace [detail] with user input detail
+***replace [detail] with user input detail***
 
 MONGODB_URL= [mongodbUrl] #reference 3. Prerequisites / -**mongodb**
 PORT=[port](eg.4000)
