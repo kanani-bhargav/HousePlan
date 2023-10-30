@@ -1,6 +1,6 @@
-## Getting Started with npx create-node-starter-app [repo name] Starter App
+# House Plan
 
-create-node-starter-app starter app is a lightweight, opinionated project template for kickstarting Node.js applications. It's designed to simplify the process of setting up a new Node.js project by providing a pre-configured directory structure, essential dependencies, and a basic project skeleton.
+A Node.js application for a house plan selling platform is a robust, server-side solution that provides the backend functionality for your web application.
 
 ## Table of Contents
 
