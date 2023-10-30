@@ -35,7 +35,7 @@ Users can add multiple house plans to their shopping cart, similar to an e-comme
 
 ## 3. Prerequisites
 
-IN this app typically includes software, libraries, or configurations.
+In this app typically includes software, libraries, or configurations.
 
 - **Node.js:** Provide the 18.12.1 required Node.js version.
 - **npm:** Provide the 9.8.1 required Node.js version.
