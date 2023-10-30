@@ -85,8 +85,8 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
 
   **_S3 Bucket Configuration:_**
 
-    In the AWS S3 console, select the bucket you created.
-    Configure the bucket's permissions to allow or deny access to specific users, roles, or the public. You can use bucket policies and access control lists (ACLs) to define these permissions.
+  In the AWS S3 console, select the bucket you created.
+  Configure the bucket's permissions to allow or deny access to specific users, roles, or the public. You can use bucket policies and access control lists (ACLs) to define these permissions.
 
   1.  **_Bucket Policies:_**
 
@@ -103,14 +103,14 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
   4.  **_Access from Code:_**
       - When accessing the S3 bucket from your code (e.g., to upload or retrieve images), use the Access Key ID and Secret Access Key associated with your IAM user. You can use AWS SDKs or APIs to interact with S3 from your application.
 
- - **SMTP Email setup:**
+- **SMTP Email setup:**
   When setting up SMTP (Simple Mail Transfer Protocol) for an email service, you need specific details and prerequisites to configure your email sending system correctly.
 
 1. **_Email Service Provider:_** You should have an email service provider (ESP) or access to an SMTP server to send emails. Common ESPs include Gmail, Outlook (Microsoft 365), Amazon SES, or custom SMTP servers.
 
 2. **_Email Account:_** You'll need an active email account associated with your ESP or SMTP server.
 
- **_SMTP Configuration Details:_**
+**_SMTP Configuration Details:_**
 
 1. **_SMTP Host (Server):_** This is the hostname or IP address of the SMTP server provided by your ESP or SMTP service. It determines where your outgoing emails are routed.
 
@@ -132,18 +132,28 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
 ## 4. Installation
 
 1. **Clone the repository:**
+
+   ```bash
    git clone https://github.com/kanani-bhargav/HousePlan.git
+   ```
 
 2. **Navigate to the project directory:**
+
+   ```bash
    cd HousePlan
+   ```
 
 3. **Install project dependencies:**
+   ```bash
    npm install
+   ```
 
 ## 5. Usage
 
 - **Start the application:**
+  ```bash
   npm start
+  ```
 
 ## 6. API Documentation
 
@@ -159,21 +169,22 @@ If your project includes an API, provide detailed documentation. Describe endpoi
 
 - **Create a `.env` file:** Users may need to create a `.env` file in the project root and specify configuration variables.
 
-***replace [detail] with user input detail***
- - **Take reference 3. Prerequisites / mongodb**
-- [x]   MONGODB_URL= [mongodbUrl] 
+**_replace [detail] with user input detail_**
+
+- **Take reference 3. Prerequisites / mongodb**
+- [x] MONGODB_URL= [mongodbUrl]
 - [x] PORT=[port](eg.4000)
 - [x] BASE_URL=https://[ip:port]
 
 - [x] JWT_SECRET_KEY= [jwt-secret-key]
- - **Take reference 3. Prerequisites / SMTP Email setup**
-- [x] SMTP_HOST=smtp.gmail.com 
+- **Take reference 3. Prerequisites / SMTP Email setup**
+- [x] SMTP_HOST=smtp.gmail.com
 - [x] SMTP_PORT=587
 - [x] SMTP_USERNAME= [useremail@gmail.com]
 - [x] SMTP_PASSWORD= [smtp-password]
 - [x] EMAIL_FROM=['[user-name] <[useremail@gmail.com]>']
- - **Take reference 3. Prerequisites / s3 Bucket**
-- [x] AWS_ACCESS_KEY=[user_aws_access_key] 
+- **Take reference 3. Prerequisites / s3 Bucket**
+- [x] AWS_ACCESS_KEY=[user_aws_access_key]
 - [x] AWS_SECRET_KEY=[user_aws_secret_key]
 - [x] AWS_REGION= [region]
 - [x] AWS_BUCKET_NAME=[bucket_name]
