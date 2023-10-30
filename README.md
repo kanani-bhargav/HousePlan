@@ -85,8 +85,8 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
 
   **_S3 Bucket Configuration:_**
 
-      - In the AWS S3 console, select the bucket you created.
-      - Configure the bucket's permissions to allow or deny access to specific users, roles, or the public. You can use bucket policies and access control lists (ACLs) to define these permissions.
+    In the AWS S3 console, select the bucket you created.
+    Configure the bucket's permissions to allow or deny access to specific users, roles, or the public. You can use bucket policies and access control lists (ACLs) to define these permissions.
 
   1.  **_Bucket Policies:_**
 
@@ -110,7 +110,7 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
 
 2. **_Email Account:_** You'll need an active email account associated with your ESP or SMTP server.
 
-+ **_SMTP Configuration Details:_**
+ **_SMTP Configuration Details:_**
 
 1. **_SMTP Host (Server):_** This is the hostname or IP address of the SMTP server provided by your ESP or SMTP service. It determines where your outgoing emails are routed.
 
