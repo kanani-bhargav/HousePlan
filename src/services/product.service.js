@@ -1,12 +1,31 @@
+const { FILES_FOLDER } = require("../helpers/constant.helper");
 const { Product } = require("../models");
+const { s3Delete, s3Upload } = require('./awsS3.service');
+const  fileService  = require('./files.service');
 
 /**
- * Get product details
- * @param {ObjectId} productId
+ * Create product
+ * @param {object} reqBody
  * @returns {Promise<Product>}
  */
-const getProductById = async (productId) => {
-  return Product.findOne({ _id: productId })
+const createProduct = async (reqBody, fileDataArray) => {
+  const productImages = [];
+
+  for (const fileData of fileDataArray) {
+    const productImage = fileService.getFileName(fileData);
+
+    /** Upload each image on AWS S3 bucket */
+    await s3Upload(`${FILES_FOLDER.product_images}/${productImage}`, fileData.buffer);
+
+    productImages.push(productImage);
+  }
+
+  const newProduct = await Product.create({
+    ...reqBody,
+    product_images: productImages,
+  });
+
+  return newProduct;
 };
 
 /**
@@ -16,53 +35,29 @@ const getProductById = async (productId) => {
  * @returns {Promise<Product>}
  */
 const getProductList = async (filter, options) => {
-  const skip = Number((options.page || 1) - 1) * Number(options.limit || 10);
-  return Product.find(filter).limit(Number(options.limit)).skip(Number(skip));
+  return Product.find().populate({
+    path: "category",
+    select: ["category_name"],
+  });
 };
 
 /**
- * Create product
- * @param {object} reqBody
- * @returns {Promise<Product>}
- */
-const createProduct = async (reqBody) => {
-  return Product.create(reqBody);
-};
-
-/**
- * Update product details
- * @param {ObjectId} productId
- * @param {object} reqBody
- * @returns {Promise<Product>}
- */
-const updateProduct = async (productId, reqBody) => {
-  return Product.findOneAndUpdate(
-    { _id: productId },
-    { $set: reqBody },
-    { new: true }
-  );
-};
-
-/**
- * Manage product status
+ * Get product details by id
  * @param {ObjectId} productId
  * @returns {Promise<Product>}
  */
-const manageProductStatus = async (productId) => {
-  const productExists = await getProductById(productId);
-  if (!productExists) {
-    throw new Error("Product not found!");
-  }
+const getProductById = async (productId) => {
+  return Product.findById(productId);
+};
 
-  return Product.findOneAndUpdate(
-    { _id: productId },
-    {
-      $set: {
-        is_active: !productExists.is_active,
-      },
-    },
-    { new: true }
-  );
+/**
+ * product details update by id
+ * @param {ObjectId} productId
+ * @param {object} updateBody
+ * @returns {Promise<Product>}
+ */
+const updateProduct = async (productId, updateBody) => {
+  return Product.findByIdAndUpdate(productId, { $set: updateBody });
 };
 
 /**
@@ -71,14 +66,18 @@ const manageProductStatus = async (productId) => {
  * @returns {Promise<Product>}
  */
 const deleteProduct = async (productId) => {
-  return Product.findOneAndDelete({ _id: productId });
+  return Product.findByIdAndDelete(productId);
+};
+
+const getProductByName = async (reqBody) => {
+  return Product.findOne({ product_name: reqBody });
 };
 
 module.exports = {
-  getProductById,
-  getProductList,
   createProduct,
+  getProductList,
+  getProductById,
   updateProduct,
-  manageProductStatus,
   deleteProduct,
+  getProductByName,
 };

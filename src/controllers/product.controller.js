@@ -1,129 +1,138 @@
-const fs = require("fs");
 const { productService } = require("../services");
+const fs = require("fs");
+const { s3Delete, s3PutObject } = require("../services/awsS3.service");
+const { FILES_FOLDER } = require("../helpers/constant.helper");
 
-/** Create product */
+/** create product */
 const createProduct = async (req, res) => {
   try {
     const reqBody = req.body;
+    const productImages = req.files;
 
-    if (req.file) {
-      reqBody.product_image = req.file.filename;
-    } else {
-      throw new Error("Product image is required!");
+    if (!productImages || productImages.length === 0) {
+      throw new Error("Product images are required. Please upload at least one image.");
     }
 
-    const createdProduct = await productService.createProduct(reqBody);
+    // Map the file names from the uploaded images
+    // const productImageNames = productImages.map(file => file.filename);
+
+    // const productExists = await productService.getProductByName(reqBody.product_name);
+    // if (productExists) {
+    //   throw new Error("Product with this name already exists.");
+    // }
+
+    const product = await productService.createProduct(reqBody, productImages);
+
+    if (!product) {
+      throw new Error("Something went wrong. Please try again later.");
+    }
 
     res.status(200).json({
       success: true,
-      message: "Product create successfully!",
-      data: createdProduct,
+      message: "Product created successfully!",
+      product,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
-/** Get product details */
-const getDetails = async (req, res) => {
-  try {
-    const productExists = await productService.getProductById(
-      req.params.productId
-    );
-    if (!productExists) {
-      throw new Error("Product not found!");
-    }
 
-    res.status(200).json({
-      success: true,
-      message: "Product details get successfully!",
-      data: productExists,
-    });
-  } catch (error) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-/** Get prooduct list */
+/** Get product list */
 const getProductList = async (req, res) => {
   try {
     const { search, ...options } = req.query;
     let filter = {};
 
     if (search) {
-      filter.product_name = { $regex: search, $options: "i" };
+      filter.$or = [
+        { first_name: { $regex: search, $options: "i" } },
+        { last_name: { $regex: search, $options: "i" } },
+      ];
     }
 
-    const getList = await productService.getProductList(filter, options);
+    const product = await productService.getProductList(
+      filter,
+      options
+    );
+
+    res.status(200).json([...product]);
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+/** Get product details by id */
+const getProductById = async (req, res) => {
+  try {
+    const product = await productService.getProductById(
+      req.params.productId
+    );
+    if (!getDetails) {
+      throw new Error("Product not found!");
+    }
 
     res.status(200).json({
       success: true,
-      data: getList,
+      message: "Product details get successfully!",
+      product,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
 
-/** Update product details */
+/** product details update by id */
 const updateProduct = async (req, res) => {
   try {
     const reqBody = req.body;
     const productId = req.params.productId;
-    const productExists = await productService.getProductById(productId);
+    const productExists = await productService.getProductById(
+      productId
+    );
     if (!productExists) {
       throw new Error("Product not found!");
     }
-
     if (req.file) {
       reqBody.product_image = req.file.filename;
     }
+    await productService.updateProduct(productId, req.body);
 
-    const updatedProduct = await productService.updateProduct(
-      productId,
-      reqBody
+    await s3PutObject(
+        `${FILES_FOLDER.product_img}/${productExists.product_image}`,
+        req.file.buffer
     );
-    if (updatedProduct) {
-      if (req.file) {
-        const filePath = `./public/product_images/${productExists.product_image}`;
-        if (fs.existsSync(filePath)) {
-          fs.unlinkSync(filePath);
-        }
-      }
-    } else {
-      throw new Error("Something went wrong, please try again or later!");
-    }
+    const product = await productService.getProductById(
+      productId
+    );
 
     res.status(200).json({
       success: true,
       message: "Product details update successfully!",
-      data: updatedProduct,
+      product,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
   }
 };
-
 
 /** Delete product */
 const deleteProduct = async (req, res) => {
   try {
     const productId = req.params.productId;
-    const productExists = await productService.getProductById(productId);
+    const productExists = await productService.getProductById(
+      productId
+    );
     if (!productExists) {
       throw new Error("Product not found!");
     }
 
-    const deletedProduct = await productService.deleteProduct(productId);
-    if (deletedProduct) {
-      const filePath = `I:/zometo_clone/src/public/product_images/${productExists.product_image}`; //note path should be absolute
-      console.log(filePath);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    } else {
-      throw new Error("Something went wrong, please try again or later!");
-    }
+    const deletedProduct = await productService.deleteProduct(
+      productId
+    );
+    await s3Delete(
+      `${FILES_FOLDER.product_img}/${productExists.product_image}`
+    );
 
     res.status(200).json({
       success: true,
@@ -136,8 +145,8 @@ const deleteProduct = async (req, res) => {
 
 module.exports = {
   createProduct,
-  getDetails,
   getProductList,
+  getProductById,
   updateProduct,
   deleteProduct,
 };

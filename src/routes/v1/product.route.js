@@ -1,48 +1,46 @@
 const express = require("express");
-// const auth = require("../../middlewares/auth");
 const { upload } = require("../../middlewares/upload");
-const validate = require("../../middlewares/validate");
-const { productValidation } = require("../../validations");
+// const { productValidation } = require("../../validations");
 const { productController } = require("../../controllers");
+const validate = require("../../middlewares/validate");
 
 const router = express.Router();
 
-/** Create product */
+/** create product */
 router.post(
   "/create",
-  // auth(),
-  validate(productValidation.createProduct),
+  upload.array("product_images", 4), // You can change "2" to the desired maximum number of images
+  // validate(productValidation.createProduct),
   productController.createProduct
 );
 
-/** Get product details */
-router.get(
-  "/details/:productId",
-  validate(productValidation.getDetails),
-  productController.getDetails
-);
 
-/** Get production list */
+/** Get product list */
 router.get(
   "/list",
-  validate(productValidation.getList),
+  // validate(productValidation.getProductList),
   productController.getProductList
 );
 
-/** Update product details */
+/** Get product details by id */
+router.get(
+  "/get-details/:productId",
+  // validate(productValidation.getDetails),
+  productController.getProductById
+);
+
+/** product details update by id */
 router.put(
   "/update/:productId",
-  // auth(),
   upload.single("product_image"),
-  validate(productValidation.updateProduct),
+  // validate(productValidation.updateProduct),
   productController.updateProduct
 );
 
 /** Delete product */
 router.delete(
   "/delete/:productId",
-  // auth(),
-  validate(productValidation.getDetails),
+  // validate(productValidation.getDetails),
   productController.deleteProduct
 );
 
