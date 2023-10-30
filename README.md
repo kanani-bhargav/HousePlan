@@ -161,20 +161,20 @@ If your project includes an API, provide detailed documentation. Describe endpoi
 
 ***replace [detail] with user input detail***
 
-MONGODB_URL= [mongodbUrl] #reference 3. Prerequisites / -**mongodb**
-PORT=[port](eg.4000)
-BASE_URL=https://[ip:port]
+- [ ]   MONGODB_URL= [mongodbUrl] #reference 3. Prerequisites / -**mongodb**
+- [ ] PORT=[port](eg.4000)
+- [ ] BASE_URL=https://[ip:port]
 
-JWT_SECRET_KEY= [jwt-secret-key]
+- [ ] JWT_SECRET_KEY= [jwt-secret-key]
 
-SMTP_HOST=smtp.gmail.com #reference 3. Prerequisites / -**SMTP Email setup:**
-SMTP_PORT=587
-SMTP_USERNAME= [useremail@gmail.com]
-SMTP_PASSWORD= [smtp-password]
-EMAIL_FROM=['[user-name] <[useremail@gmail.com]>']
+- [ ] SMTP_HOST=smtp.gmail.com #reference 3. Prerequisites / -**SMTP Email setup:**
+- [ ] SMTP_PORT=587
+- [ ] SMTP_USERNAME= [useremail@gmail.com]
+- [ ] SMTP_PASSWORD= [smtp-password]
+- [ ] EMAIL_FROM=['[user-name] <[useremail@gmail.com]>']
 
-AWS_ACCESS_KEY=[user_aws_access_key] #reference 3. Prerequisites / -**s3 Bucket**
-AWS_SECRET_KEY=[user_aws_secret_key]
-AWS_REGION= [region]
-AWS_BUCKET_NAME=[bucket_name]
-IMAGE_URL=https://[user_s3_bucket_name].s3.[user_region].amazonaws.com
+- [ ] AWS_ACCESS_KEY=[user_aws_access_key] #reference 3. Prerequisites / -**s3 Bucket**
+- [ ] AWS_SECRET_KEY=[user_aws_secret_key]
+- [ ] AWS_REGION= [region]
+- [ ] AWS_BUCKET_NAME=[bucket_name]
+- [ ] IMAGE_URL=https://[user_s3_bucket_name].s3.[user_region].amazonaws.com
