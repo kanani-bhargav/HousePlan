@@ -103,7 +103,7 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
   4.  **_Access from Code:_**
       - When accessing the S3 bucket from your code (e.g., to upload or retrieve images), use the Access Key ID and Secret Access Key associated with your IAM user. You can use AWS SDKs or APIs to interact with S3 from your application.
 
- **SMTP Email setup:**
+ - **SMTP Email setup:**
   When setting up SMTP (Simple Mail Transfer Protocol) for an email service, you need specific details and prerequisites to configure your email sending system correctly.
 
 1. **_Email Service Provider:_** You should have an email service provider (ESP) or access to an SMTP server to send emails. Common ESPs include Gmail, Outlook (Microsoft 365), Amazon SES, or custom SMTP servers.
