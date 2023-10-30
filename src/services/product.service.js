@@ -1,28 +1,14 @@
-const { FILES_FOLDER } = require("../helpers/constant.helper");
 const { Product } = require("../models");
-const { s3Delete, s3Upload } = require('./awsS3.service');
-const  fileService  = require('./files.service');
+
 
 /**
  * Create product
  * @param {object} reqBody
  * @returns {Promise<Product>}
  */
-const createProduct = async (reqBody, fileDataArray) => {
-  const productImages = [];
-
-  for (const fileData of fileDataArray) {
-    const productImage = fileService.getFileName(fileData);
-
-    /** Upload each image on AWS S3 bucket */
-    await s3Upload(`${FILES_FOLDER.product_images}/${productImage}`, fileData.buffer);
-
-    productImages.push(productImage);
-  }
-
+const createProduct = async (reqBody) => {
   const newProduct = await Product.create({
     ...reqBody,
-    product_images: productImages,
   });
 
   return newProduct;
@@ -35,10 +21,7 @@ const createProduct = async (reqBody, fileDataArray) => {
  * @returns {Promise<Product>}
  */
 const getProductList = async (filter, options) => {
-  return Product.find().populate({
-    path: "category",
-    select: ["category_name"],
-  });
+  return Product.find().populate("subCategory").populate("childSubCategory").populate("productImages")
 };
 
 /**
@@ -70,7 +53,7 @@ const deleteProduct = async (productId) => {
 };
 
 const getProductByName = async (reqBody) => {
-  return Product.findOne({ product_name: reqBody });
+  return Product.findOne({ plan: reqBody });
 };
 
 module.exports = {

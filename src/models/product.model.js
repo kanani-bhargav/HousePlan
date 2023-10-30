@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const config = require("../config/config");
-const { FILES_FOLDER } = require("../helpers/constant.helper");
 const { toJSON, paginate } = require("./plugins");
 
 const productSchema = new mongoose.Schema(
@@ -83,30 +81,32 @@ const productSchema = new mongoose.Schema(
       more_detail_1: { type: String, trim: true },
       more_detail_2: { type: String, trim: true },
     },
-    plan_options:[{
-      plan_set:{type:String,trim:true},
-      plan_price:{type:Number,default:0},
-      plan_description:{type:String,trim:true},
-    }],
-    foundation_options:[{
-      plan_set:{type:String,trim:true},
-      plan_price:{type:Number,default:0},
-      plan_description:{type:String,trim:true},
-    }],
-    framing_options:[{
-      plan_set:{type:String,trim:true},
-      plan_price:{type:Number,default:0},
-      plan_description:{type:String,trim:true},
-    }],
-    additional_options:[{
-      plan_set:{type:String,trim:true},
-      plan_price:{type:Number,default:0},
-      plan_description:{type:String,trim:true},
-    }],
-    product_images: [
+    plan_options: [
       {
-        type: String,
-        trim: true,
+        plan_set: { type: String, trim: true },
+        plan_price: { type: Number, default: 0 },
+        plan_description: { type: String, trim: true },
+      },
+    ],
+    foundation_options: [
+      {
+        plan_set: { type: String, trim: true },
+        plan_price: { type: Number, default: 0 },
+        plan_description: { type: String, trim: true },
+      },
+    ],
+    framing_options: [
+      {
+        plan_set: { type: String, trim: true },
+        plan_price: { type: Number, default: 0 },
+        plan_description: { type: String, trim: true },
+      },
+    ],
+    additional_options: [
+      {
+        plan_set: { type: String, trim: true },
+        plan_price: { type: Number, default: 0 },
+        plan_description: { type: String, trim: true },
       },
     ],
     childSubCategory: {
@@ -117,6 +117,10 @@ const productSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "subCategory",
     },
+    productImages: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "productImages",
+    },
     is_active: {
       type: Boolean,
       default: true,
@@ -125,15 +129,6 @@ const productSchema = new mongoose.Schema(
   {
     timestamps: true,
     versionKey: false,
-    toJSON: {
-      transform: function (doc, data) {
-        if (data.product_images && data.product_images.length > 0) {
-          data.product_images = data.product_images.map((image) => ({
-            product_image: `${config.image_url}/${FILES_FOLDER.product_images}/${image}`,
-          }));
-        }
-      },
-    },
   }
 );
 

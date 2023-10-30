@@ -5,4 +5,5 @@ module.exports.productService=require('./product.service')
 module.exports.categoryService=require('./category.service')
 module.exports.subCategoryService=require('./subCategory.service')
 module.exports.childSubCategoryService=require('./childSubCategory.service')
+module.exports.productImagesService=require('./productImages.service')
 module.exports.fileService = require('./files.service');

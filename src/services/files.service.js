@@ -1,5 +1,5 @@
 const fs = require('fs');
-// const httpStatus = require('http-status');
+const httpStatus = require('http-status');
 const path = require('path');
 // const { s3Upload } = require('./awsS3.service');
 
