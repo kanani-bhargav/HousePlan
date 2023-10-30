@@ -160,20 +160,20 @@ If your project includes an API, provide detailed documentation. Describe endpoi
 - **Create a `.env` file:** Users may need to create a `.env` file in the project root and specify configuration variables.
 
 ***replace [detail] with user input detail***
-
-- [x]   MONGODB_URL= [mongodbUrl] #reference 3. Prerequisites / -**mongodb**
+ - **Take reference 3. Prerequisites / mongodb**
+- [x]   MONGODB_URL= [mongodbUrl] 
 - [x] PORT=[port](eg.4000)
 - [x] BASE_URL=https://[ip:port]
 
 - [x] JWT_SECRET_KEY= [jwt-secret-key]
-
-- [x] SMTP_HOST=smtp.gmail.com #reference 3. Prerequisites / -**SMTP Email setup:**
+ - **Take reference 3. Prerequisites / SMTP Email setup**
+- [x] SMTP_HOST=smtp.gmail.com 
 - [x] SMTP_PORT=587
 - [x] SMTP_USERNAME= [useremail@gmail.com]
 - [x] SMTP_PASSWORD= [smtp-password]
 - [x] EMAIL_FROM=['[user-name] <[useremail@gmail.com]>']
-
-- [x] AWS_ACCESS_KEY=[user_aws_access_key] #reference 3. Prerequisites / -**s3 Bucket**
+ - **Take reference 3. Prerequisites / s3 Bucket**
+- [x] AWS_ACCESS_KEY=[user_aws_access_key] 
 - [x] AWS_SECRET_KEY=[user_aws_secret_key]
 - [x] AWS_REGION= [region]
 - [x] AWS_BUCKET_NAME=[bucket_name]
