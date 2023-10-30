@@ -1,6 +1,6 @@
 # House Plan
 
-A Node.js application for a house plan selling platform is a robust, server-side solution that provides the backend functionality for your web application.
+A Node.js application for a house plan selling platform is a robust, server-side solution that provides the backend functionality for web application.
 
 ## Table of Contents
 
