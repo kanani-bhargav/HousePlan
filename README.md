@@ -83,27 +83,27 @@ mongodb+srv://<username>:<password>@clustername.mongodb.net/<dbname>
 
   4.  **_Access Key and Secret Access Key:_** You'll need the Access Key ID and Secret Access Key associated with your IAM user.
 
-  5.  **_S3 Bucket Configuration:_**
+  **_S3 Bucket Configuration:_**
 
       - In the AWS S3 console, select the bucket you created.
       - Configure the bucket's permissions to allow or deny access to specific users, roles, or the public. You can use bucket policies and access control lists (ACLs) to define these permissions.
 
-  6.  **_Bucket Policies:_**
+  1.  **_Bucket Policies:_**
 
       - You can set a bucket policy to define who can access objects in the bucket. Make sure to configure the policy to allow the specific IAM user you created to access the bucket. For example, you can specify the user's ARN (Amazon Resource Name) in the policy.
 
-  7.  **_Access Control Lists (ACLs):_**
+  2.  **_Access Control Lists (ACLs):_**
 
       - You can set access control lists on individual objects within the bucket, further specifying which users or entities can access each object.
 
-  8.  **_Encryption:_**
+  3.  **_Encryption:_**
 
       - Consider enabling encryption for the data stored in the bucket. You can use server-side encryption to protect the data at rest.
 
-  9.  **_Access from Code:_**
+  4.  **_Access from Code:_**
       - When accessing the S3 bucket from your code (e.g., to upload or retrieve images), use the Access Key ID and Secret Access Key associated with your IAM user. You can use AWS SDKs or APIs to interact with S3 from your application.
 
-+ **SMTP Email setup:**
+ **SMTP Email setup:**
   When setting up SMTP (Simple Mail Transfer Protocol) for an email service, you need specific details and prerequisites to configure your email sending system correctly.
 
 1. **_Email Service Provider:_** You should have an email service provider (ESP) or access to an SMTP server to send emails. Common ESPs include Gmail, Outlook (Microsoft 365), Amazon SES, or custom SMTP servers.
