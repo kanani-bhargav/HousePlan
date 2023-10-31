@@ -3,4 +3,5 @@ module.exports.productValidation = require("./product.validation");
 module.exports.categoryValidation = require("./category.validation");
 module.exports.subCategoryValidation = require("./subCategory.validation");
 module.exports.childSubCategoryValidation = require("./childSubCategory.validation");
+module.exports.cartValidation = require("./cart.validation");
 module.exports.tokenValidation = require("./token.validation");
