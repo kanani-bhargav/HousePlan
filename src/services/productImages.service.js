@@ -11,11 +11,6 @@ const fileService = require("./files.service");
 const createProductImages = async (reqBody, fileDataArray) => {
   const productImages = {};
 
-  // /** validate the uploaded files */
-  // fileService.validateImageFile({
-  //     subCategory_image: subCategory_image,
-  // });
-
   for (const fileData in fileDataArray) {
     const fileField = fileDataArray[fileData][0].fieldname;
 

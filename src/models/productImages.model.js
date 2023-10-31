@@ -63,7 +63,7 @@ const productImagesSchema = new mongoose.Schema(
 );
 
 // add plugin that converts mongoose to json
-// productImagesSchema.plugin(toJSON);
+productImagesSchema.plugin(toJSON);
 // subCategorySchema.plugin(paginate);
 
 const productImages = mongoose.model("productImages", productImagesSchema);

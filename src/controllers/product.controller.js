@@ -82,6 +82,7 @@ const updateProduct = async (req, res) => {
     if (!productExists) {
       throw new Error("Product not found!");
     }
+    await productService.updateProduct(productId, req.body);
     const product = await productService.getProductById(
       productId
     );

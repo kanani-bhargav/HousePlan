@@ -134,7 +134,7 @@ const productSchema = new mongoose.Schema(
 
 // add plugin that converts mongoose to json
 productSchema.plugin(toJSON);
-// subCategorySchema.plugin(paginate);
+productSchema.plugin(paginate);
 
 const Product = mongoose.model("product", productSchema);
 module.exports = Product;
