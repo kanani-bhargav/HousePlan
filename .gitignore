@@ -1,11 +1,2 @@
 # modules
 node_modules
-
-# lock file
-package-lock.json
-
-# public
-public
-
-#  .envs
-# *.env
