@@ -10,6 +10,10 @@ const cartRoute = require("./cart.route");
 
 const router = express.Router();
 
+router.get("/ok", (req, res) => {
+  res.send("hellow word");
+});
+
 router.use("/token", tokenRoutes);
 router.use("/user", userRoute);;
 router.use("/product", productRoute);
